@@ -144,7 +144,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private String serializationId;
 
-	/** Whether to allow re-registration of a different definition with the same name. */
+	/**
+	 * 是否允许重新注册具有相同名称的不同定义<br/>
+	 * Whether to allow re-registration of a different definition with the same name.
+	 * */
 	private boolean allowBeanDefinitionOverriding = true;
 
 	/** Whether to allow eager class loading even for lazy-init beans. */
@@ -203,6 +206,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	/**
+	 * 为序列化目的指定一个 id，如果需要，允许将此 BeanFactory 从此 id 反序列化回 BeanFactory 对象。<br/>
 	 * Specify an id for serialization purposes, allowing this BeanFactory to be
 	 * deserialized from this id back into the BeanFactory object, if needed.
 	 */
