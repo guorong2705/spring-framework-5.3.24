@@ -55,5 +55,4 @@ settings.gradle.projectsLoaded {
 		}
 	}
 }
-include 'spring-guorong-demo'
 

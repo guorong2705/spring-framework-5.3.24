@@ -1,4 +1,0 @@
-dependencies {
-    implementation(project(":spring-context"))
-    implementation("org.projectlombok:lombok:1.18.24")
-}
