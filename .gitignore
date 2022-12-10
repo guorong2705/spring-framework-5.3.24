@@ -28,6 +28,8 @@ buildSrc/build
 /src/asciidoc/build
 spring-test/test-output/
 
+/_00-spring-*/build
+
 # Maven artifacts
 pom.xml
 /spring-*/target/
