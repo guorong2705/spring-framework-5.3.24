@@ -200,6 +200,7 @@ public class PropertyPlaceholderConfigurer extends PlaceholderConfigurerSupport 
 
 
 	/**
+	 * 访问给定 bean 工厂中的每个 bean 定义，并尝试用给定属性的值替换 ${...} 属性占位符。 <br/>
 	 * Visit each bean definition in the given bean factory and attempt to replace ${...} property
 	 * placeholders with values from the given properties.
 	 */

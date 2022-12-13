@@ -140,6 +140,7 @@ public abstract class PropertiesLoaderSupport {
 
 
 	/**
+	 * 返回一个合并的 Properties 实例，其中包含加载的属性和在此 FactoryBean 上设置的属性 <br/>
 	 * Return a merged Properties instance containing both the
 	 * loaded properties and properties set on this FactoryBean.
 	 */
@@ -166,6 +167,7 @@ public abstract class PropertiesLoaderSupport {
 	}
 
 	/**
+	 * 将属性加载到给定的实例中<br/>
 	 * Load properties into the given instance.
 	 * @param props the Properties instance to load into
 	 * @throws IOException in case of I/O errors

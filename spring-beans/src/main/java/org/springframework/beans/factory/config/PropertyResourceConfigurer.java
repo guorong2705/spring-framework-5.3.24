@@ -84,6 +84,7 @@ public abstract class PropertyResourceConfigurer extends PropertiesLoaderSupport
 			// Convert the merged properties, if necessary.
 			convertProperties(mergedProps);
 
+			// 让子类处理属性(模板方法)
 			// Let the subclass process the properties.
 			processProperties(beanFactory, mergedProps);
 		}
