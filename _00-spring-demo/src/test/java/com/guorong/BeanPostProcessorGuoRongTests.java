@@ -3,10 +3,13 @@ package com.guorong;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 
 /**
@@ -17,33 +20,24 @@ class BeanPostProcessorGuoRongTests {
 	@Test
 	void test() {
 		StaticApplicationContext context = new StaticApplicationContext();
-		// context.registerSingleton("TestAwareBeanProcessor", TestAwareBeanProcessor.class);
-		AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder
-				.genericBeanDefinition(TestAwareBeanProcessor.class)
-				.setLazyInit(true).getBeanDefinition();
-		context.registerBeanDefinition("TestAwareBeanProcessor", beanDefinition);
+		// BeanPostProcessor 作为 BeanDefinition 来注册
+		AbstractBeanDefinition beanPostProcessorBeanDefinition = BeanDefinitionBuilder
+				.genericBeanDefinition(MyBeanPostProcessor.class)
+				.getBeanDefinition();
+		context.registerBeanDefinition(MyBeanPostProcessor.class.getSimpleName(), beanPostProcessorBeanDefinition);
+		// 注册 Bean 定义信息
+		AbstractBeanDefinition stringBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(String.class)
+				.addConstructorArgValue("张三")
+				.getBeanDefinition();
+		context.registerBeanDefinition("m-string", stringBeanDefinition);
 		context.refresh();
-		TestAwareBeanProcessor bean = context.getBean(TestAwareBeanProcessor.class);
-		System.out.println(bean);
 	}
 
-	public static class TestAwareBeanProcessor implements ApplicationContextAware {
-
-		private String name = "测试Aware";
-
-		private ApplicationContext applicationContext;
-
+	public static class MyBeanPostProcessor implements BeanPostProcessor {
 		@Override
-		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-			this.applicationContext = applicationContext;
-		}
-
-		@Override
-		public String toString() {
-			return "TestAwareBeanProcessor{" +
-					"name='" + name + '\'' +
-					", applicationContext=" + applicationContext +
-					'}';
+		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+			System.out.println(String.format("bean--->>>%s  beanName--->>>%s", bean, beanName));
+			return bean;
 		}
 	}
 
