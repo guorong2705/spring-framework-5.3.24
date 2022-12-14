@@ -85,7 +85,8 @@ public class BeanFactoryUtilsTests {
 		StaticListableBeanFactory lbf = new StaticListableBeanFactory();
 		lbf.addBean("t1", new TestBean());
 		lbf.addBean("t2", new TestBean());
-		assertThat(BeanFactoryUtils.countBeansIncludingAncestors(lbf) == 2).isTrue();
+		lbf.addBean("t3", new TestBean());
+		assertThat(BeanFactoryUtils.countBeansIncludingAncestors(lbf) == 3).isTrue();
 	}
 
 	/**
