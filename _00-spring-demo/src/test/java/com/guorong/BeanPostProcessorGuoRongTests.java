@@ -1,15 +1,11 @@
 package com.guorong;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.StaticApplicationContext;
 
 /**
@@ -25,18 +21,61 @@ class BeanPostProcessorGuoRongTests {
 				.genericBeanDefinition(MyBeanPostProcessor.class)
 				.getBeanDefinition();
 		context.registerBeanDefinition(MyBeanPostProcessor.class.getSimpleName(), beanPostProcessorBeanDefinition);
+
 		// 注册 Bean 定义信息
-		AbstractBeanDefinition stringBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(String.class)
-				.addConstructorArgValue("张三")
+		AbstractBeanDefinition myBeanDefinition = BeanDefinitionBuilder
+				.genericBeanDefinition(MyBean.class)
+				.setLazyInit(true)
 				.getBeanDefinition();
-		context.registerBeanDefinition("m-string", stringBeanDefinition);
+		context.registerBeanDefinition(MyBean.class.getName(), myBeanDefinition);
+
 		context.refresh();
+
+		MyBean bean = context.getBean(MyBean.class);
+		Assertions.assertTrue(bean.awareMessage);
+		context.close();
+	}
+
+
+	public static class MyBean implements MessageAware {
+		public boolean awareMessage;
+
+		public MyBean() {
+			this.awareMessage = false;
+		}
+
+		@Override
+		public void setAwareMessage(boolean awareMessage) {
+			this.awareMessage = awareMessage;
+		}
+
+		@Override
+		public String toString() {
+			return "MyBean{" +
+					"awareMessage='" + awareMessage + '\'' +
+					'}';
+		}
+	}
+
+	// 标记接口
+	public interface MessageAware {
+		void setAwareMessage(boolean awareMessage);
 	}
 
 	public static class MyBeanPostProcessor implements BeanPostProcessor {
 		@Override
 		public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 			System.out.println(String.format("bean--->>>%s  beanName--->>>%s", bean, beanName));
+			if (!(bean instanceof MessageAware)) {
+				return bean;
+			}
+			MessageAware messageAware = (MessageAware) bean;
+			messageAware.setAwareMessage(true);
+			return messageAware;
+		}
+
+		@Override
+		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 			return bean;
 		}
 	}
