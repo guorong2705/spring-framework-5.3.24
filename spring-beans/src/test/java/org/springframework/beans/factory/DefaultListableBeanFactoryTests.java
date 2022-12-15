@@ -104,6 +104,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
+ * 测试属性填充和自动装配
  * Tests properties population and autowire behavior.
  *
  * @author Rod Johnson

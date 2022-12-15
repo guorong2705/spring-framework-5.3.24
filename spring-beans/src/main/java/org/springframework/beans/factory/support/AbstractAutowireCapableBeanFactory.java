@@ -1800,11 +1800,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName); // 应用 bean 的后置处理器初始化前方法
+			// 应用 bean 的后置处理器初始化前方法
+			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
 		try {
-			invokeInitMethods(beanName, wrappedBean, mbd); // 调用 InitializingBean接口的 afterPropertiesSet() 和 bean定义中的初始化方法
+			// 调用 InitializingBean接口的 afterPropertiesSet() 和 bean定义中的初始化方法
+			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
 			throw new BeanCreationException(
@@ -1812,7 +1814,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName); // 应用 bean 后置处理器初始化后的方法
+			// 应用 bean 后置处理器初始化后的方法
+			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
 		return wrappedBean;
