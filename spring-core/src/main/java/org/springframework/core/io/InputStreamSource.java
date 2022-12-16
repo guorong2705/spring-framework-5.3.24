@@ -41,6 +41,9 @@ import java.io.InputStream;
 public interface InputStreamSource {
 
 	/**
+	 * 返回底层资源内容的InputStream 。预计每次调用都会创建一个新流。<br/>
+	 * 当您考虑诸如 JavaMail 之类的 API 时，此要求尤为重要，它需要能够在创建邮件附件时多次读取流。对于这样的用例，要求每个getInputStream()调用都返回一个新的流。<br/>
+	 *
 	 * Return an {@link InputStream} for the content of an underlying resource.
 	 * <p>It is expected that each call creates a <i>fresh</i> stream.
 	 * <p>This requirement is particularly important when you consider an API such
