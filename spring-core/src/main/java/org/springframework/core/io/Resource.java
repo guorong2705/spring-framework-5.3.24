@@ -104,6 +104,7 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 返回此资源的 URL 句柄。<br/>
 	 * Return a URL handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URL,
 	 * i.e. if the resource is not available as a descriptor
@@ -111,6 +112,7 @@ public interface Resource extends InputStreamSource {
 	URL getURL() throws IOException;
 
 	/**
+	 * 返回此资源的 URI 句柄。<br/>
 	 * Return a URI handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URI,
 	 * i.e. if the resource is not available as a descriptor
@@ -146,6 +148,7 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 确定此资源的内容长度。<br/>
 	 * Determine the content length for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)
@@ -181,7 +184,6 @@ public interface Resource extends InputStreamSource {
 
 	/**
 	 * 返回此资源的描述，在使用资源时用于错误输出。还鼓励实现从其toString方法返回此值。<br/>
-	 *
 	 * Return a description for this resource,
 	 * to be used for error output when working with the resource.
 	 * <p>Implementations are also encouraged to return this value

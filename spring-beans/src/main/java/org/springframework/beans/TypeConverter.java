@@ -23,6 +23,9 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.lang.Nullable;
 
 /**
+ * 定义类型转换方法的接口。通常（但不一定）与 PropertyEditorRegistry 接口一起实现。<br/>
+ * 注意：由于 TypeConverter 实现通常基于非线程安全的 PropertyEditors，因此 TypeConverter 本身也不应被视为线程安全。<br/>
+ *
  * Interface that defines type conversion methods. Typically (but not necessarily)
  * implemented in conjunction with the {@link PropertyEditorRegistry} interface.
  *
