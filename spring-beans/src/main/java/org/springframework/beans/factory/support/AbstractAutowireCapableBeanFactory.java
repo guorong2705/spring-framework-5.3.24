@@ -1199,7 +1199,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd, @Nullable Object[] args) {
 
-		// Make sure bean class is actually resolved at this point.
 		// 解析 bean，将 bean 类名解析为 class 引用
 		Class<?> beanClass = resolveBeanClass(mbd, beanName);
 
@@ -1218,7 +1217,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
-		// Shortcut when re-creating the same bean...
+		// Shortcut when re-creating the same bean... 重新创建相同 bean 时的快捷方式
 		boolean resolved = false;
 		boolean autowireNecessary = false;
 		if (args == null) {

@@ -59,11 +59,14 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 	@Override
 	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
-		// Don't override the class with CGLIB if no overrides.
+		// 没有覆盖，直接使用反射实例化
 		if (!bd.hasMethodOverrides()) {
+			// 重新检测获取下构造函数，该构造函数是经过前面 N 多复杂过程确认的构造函数
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
+				// 获取已经解析的构造函数
 				constructorToUse = (Constructor<?>) bd.resolvedConstructorOrFactoryMethod;
+				// 如果为 null，从 class 中解析获取，并设置
 				if (constructorToUse == null) {
 					final Class<?> clazz = bd.getBeanClass();
 					if (clazz.isInterface()) {
@@ -71,10 +74,10 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 					}
 					try {
 						if (System.getSecurityManager() != null) {
-							constructorToUse = AccessController.doPrivileged(
-									(PrivilegedExceptionAction<Constructor<?>>) clazz::getDeclaredConstructor);
+							constructorToUse = AccessController.doPrivileged((PrivilegedExceptionAction<Constructor<?>>) clazz::getDeclaredConstructor);
 						}
 						else {
+							// 利用反射获取构造器
 							constructorToUse = clazz.getDeclaredConstructor();
 						}
 						bd.resolvedConstructorOrFactoryMethod = constructorToUse;
@@ -84,10 +87,13 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 					}
 				}
 			}
+
+			// 通过BeanUtils直接使用构造器对象实例化bean
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
+		// 存在覆盖，使用 CGLIB 创建的子类对象
 		else {
-			// Must generate CGLIB subclass.
+			// 生成 CGLIB 创建的子类对象
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}
 	}
