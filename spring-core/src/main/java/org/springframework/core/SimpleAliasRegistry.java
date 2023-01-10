@@ -210,7 +210,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 */
 	public String canonicalName(String name) {
 		String canonicalName = name;
-		// Handle aliasing...
+		// 处理别名
 		String resolvedName;
 		do {
 			resolvedName = this.aliasMap.get(canonicalName);

@@ -81,11 +81,15 @@ public abstract class BeanFactoryUtils {
 	 */
 	public static String transformedBeanName(String name) {
 		Assert.notNull(name, "'name' must not be null");
+
 		// 不是 "&" 开头的的直接返回 name
 		if (!name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 			return name;
 		}
-		// 去除 FactoryBean 的修饰符。如果 name 以 “&” 为前缀，那么会去掉该 “&”，例如，name = "&studentService"，则会是 name = "studentService"
+
+		/**
+		 * 首先会从已经转换的 bean name 缓存中获取，如果不存在，就会去除 FactoryBean 的修饰符 “&” 。
+		 */
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
 				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
